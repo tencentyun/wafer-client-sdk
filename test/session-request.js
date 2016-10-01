@@ -9,9 +9,9 @@ const constants = require('../lib/constants');
 const WX_SESSION_MAGIC_ID = 'F2C224D4-2BCE-4C64-AF9F-A6D872000D1A';
 const REQUEST_PATH = require.resolve('../lib/session-request');
 
-describe('Session Request', function() {
+describe('Session Request', function () {
     let wx, request, SessionRequestError, setLoginTimeout;
-    beforeEach(function() {
+    beforeEach(function () {
         delete require.cache[REQUEST_PATH];
         ({ request, SessionRequestError, setLoginTimeout } = require('../lib/session-request'));
 
@@ -21,17 +21,17 @@ describe('Session Request', function() {
         };
     });
 
-    it('should be a function', function() {
-        should(request).be.a.Function();
+    it('should be a function', function () {
+        should(request).be.a.Function ();
     });
 
-    it('should throw an error when no options passed', function() {
-        should.throws(function() {
+    it('should throw an error when no options passed', function () {
+        should.throws(function () {
             request();
         });
     });
 
-    it('should call login for the first request', function() {
+    it('should call login for the first request', function () {
         sinon.stub(wx, 'login');
         request({
             url: 'https://www.mydomain.com/ajax/action'
@@ -40,7 +40,7 @@ describe('Session Request', function() {
         wx.login.should.be.calledOnce();
     });
 
-    it('should call login for only once for multiple request', function() {
+    it('should call login only once for multiple request', function () {
         sinon.stub(wx, 'login');
         request({
             url: 'https://www.mydomain.com/ajax/action'
@@ -53,7 +53,7 @@ describe('Session Request', function() {
         wx.login.should.be.calledOnce();
     });
 
-    it('should call with code for the first request', function(done) {
+    it('should call with code for the first request', function (done) {
         sinon.stub(wx, 'login', function (options) {
            options.success({ code: 'pseudo_code' });
         });
