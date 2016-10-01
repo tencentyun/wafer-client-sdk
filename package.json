@@ -4,7 +4,7 @@
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "scripts": {
-    "test": "npm run test"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",

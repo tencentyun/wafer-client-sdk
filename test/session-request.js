@@ -24,5 +24,7 @@ describe('Session Request', function() {
         });
         wx.login.should.be.calledOnce();
     });
-    it('should call with code for the first request')
+    it('should call with code for the first request', function() {
+
+    });
 });
