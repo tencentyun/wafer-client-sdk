@@ -1,0 +1,24 @@
+{
+  "name": "qcloud-weapp-client-sdk",
+  "version": "0.1.0",
+  "description": "QCloud 微信小程序客户端 SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://git.code.oa.com/la/qcloud-weapp-client-sdk.git"
+  },
+  "keywords": [
+    "qcloud",
+    "weapp",
+    "wechat",
+    "sdk",
+    "client",
+    "auth",
+    "websocket"
+  ],
+  "author": "Tencent Cloud",
+  "license": "MIT"
+}
