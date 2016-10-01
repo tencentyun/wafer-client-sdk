@@ -20,5 +20,11 @@
     "websocket"
   ],
   "author": "Tencent Cloud",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "mocha": "^3.1.0",
+    "should": "^11.1.0",
+    "should-sinon": "0.0.5",
+    "sinon": "^1.17.6"
+  }
 }
