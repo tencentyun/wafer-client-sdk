@@ -17,7 +17,7 @@ describe('lib/request.js', function () {
         };
     });
 
-    describe('qcloud.RequestError()', function () {
+    describe('class: RequestError', function () {
         it('should return Error instance with type and message', function () {
             const error = new RequestError('pseudo_type', 'pseudo_message');
 
@@ -28,7 +28,7 @@ describe('lib/request.js', function () {
         });
     });
 
-    describe('qcloud.request()', function () {
+    describe('method: request()', function () {
         it('should throw an error if no options passed', function () {
            should.throws(function () {
               request();

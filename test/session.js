@@ -9,10 +9,10 @@ const Session = require('../lib/session');
 
 const setupFakeWxAPI = require('./helpers/setupFakeWxAPI');
 
-describe('session.js', function() {
+describe('lib/session.js', function() {
     before(setupFakeWxAPI);
 
-    describe('method get(), set() and clear()', function() {
+    describe('method: get(), set() and clear()', function() {
 
         it('should get value that set', function() {
             const myValue = 'test_value';

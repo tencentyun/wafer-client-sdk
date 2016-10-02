@@ -10,10 +10,10 @@ const { login, LoginError } = require('../lib/login');
 
 const setupFakeWxAPI = require('./helpers/setupFakeWxAPI');
 
-describe('login.js', function() {
+describe('lib/login.js', function() {
 
 
-    describe('class qcloud.LoginError', function() {
+    describe('class: LoginError', function() {
         it('should take type and message as property', function() {
             const error = new LoginError('mytype', 'mymessage');
             error.type.should.be.equal('mytype');
@@ -21,7 +21,7 @@ describe('login.js', function() {
         });
     });
 
-    describe('method qcloud.login()', function() {
+    describe('method: login()', function() {
         const testLoginUrl = 'https://api.mydomain.com/login';
         const testCode = 'test_code';
         const testEncryptData = 'encrypt_data';
