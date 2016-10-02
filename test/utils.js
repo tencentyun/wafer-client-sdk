@@ -6,8 +6,8 @@ require('should-sinon');
 
 const { extend } = require('../lib/utils');
 
-describe('utils', function () {
-    describe('extend', function () {
+describe('utils.js', function () {
+    describe('method extend()', function () {
         it('should ignore properties from prototype', function () {
             const a = {};
             const b = Object.create({
