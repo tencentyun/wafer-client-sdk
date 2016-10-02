@@ -62,8 +62,8 @@ describe('lib/request.js', function () {
 
             sinon.stub(wx, 'request', function (options) {
                 options.header.should.be.an.Object();
-                options.header[constants.WX_HEADER_ID].should.be.equal('');
-                options.header[constants.WX_HEADER_SKEY].should.be.equal('');
+                should.not.exists(options.header[constants.WX_HEADER_ID]);
+                should.not.exists(options.header[constants.WX_HEADER_SKEY]);
 
                 Session.get.restore();
                 done();
