@@ -10,18 +10,16 @@ const { login, LoginError } = require('../lib/login');
 
 const setupFakeWxAPI = require('./helpers/setupFakeWxAPI');
 
-describe('lib/login.js', function() {
-
-
-    describe('class: LoginError', function() {
-        it('should take type and message as property', function() {
+describe('lib/login.js', function () {
+    describe('class: LoginError', function () {
+        it('should take type and message as property', function () {
             const error = new LoginError('mytype', 'mymessage');
             error.type.should.be.equal('mytype');
             error.message.should.be.equal('mymessage');
         });
     });
 
-    describe('method: login()', function() {
+    describe('method: login()', function () {
         const testLoginUrl = 'https://api.mydomain.com/login';
         const testCode = 'test_code';
         const testEncryptData = 'encrypt_data';
@@ -29,26 +27,28 @@ describe('lib/login.js', function() {
         const testId = 'test_id';
         const testSkey = 'test_skey';
 
-        it('should be a function', function() {
-            login.should.be.a.Function();
+        it('should be a function', function () {
+            login.should.be.a.Function ();
         });
-        it('should throw an error if no `loginUrl` passed', function() {
-            should.throws(function() { login() });
+
+        it('should throw an error if no `loginUrl` passed', function () {
+            should.throws(function () { login() });
         });
-        it('should go through the login process without session stored', function(done) {
+
+        it('should go through the login process without session stored', function (done) {
 
             setupFakeWxAPI();
 
             // 给微信两个接口打桩，响应正常
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.success({ code: testCode });
             });
-            sinon.stub(global.wx, 'getUserInfo', function(options) {
+            sinon.stub(global.wx, 'getUserInfo', function (options) {
                 options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
             });
 
             // 给登录服务器请求打桩，检查参数是否正确的同时响应登录成功
-            sinon.stub(global.wx, 'request', function(options) {
+            sinon.stub(global.wx, 'request', function (options) {
                 const { url, header, method } = options;
                 url.should.be.equal(testLoginUrl);
                 header.should.be.an.Object();
@@ -63,12 +63,12 @@ describe('lib/login.js', function() {
                             skey: testSkey
                         }
                     }
-                })
+                });
             });
 
             login({
                 loginUrl: testLoginUrl,
-                success: function(userInfo) {
+                success: function (userInfo) {
                     userInfo.should.be.equal(testUserInfo);
                     var session = Session.get();
                     session.id.should.be.equal(testId);
@@ -77,8 +77,8 @@ describe('lib/login.js', function() {
                 }
             });
         });
-        it('should callback with userInfo in session if session exists', function() {
 
+        it('should callback with userInfo in session if session exists', function () {
             setupFakeWxAPI();
 
             // 接口打桩，这些接口不应该被调用
@@ -89,32 +89,34 @@ describe('lib/login.js', function() {
             Session.set({
                 id: testId,
                 skey: testSkey,
-                userInfo: testUserInfo
+                userInfo: testUserInfo,
             });
 
             login({
                 loginUrl: testLoginUrl,
-                success: function(userInfo) {
+                success: function (userInfo) {
                     userInfo.should.be.equal(testUserInfo);
-                }
+                },
             });
 
             global.wx.login.should.not.be.called();
             global.wx.getUserInfo.should.not.be.called();
             global.wx.request.should.not.be.called();
         });
-        it('should call fail() if wx.login() fails', function() {
+
+        it('should call fail() if wx.login() fails', function () {
             setupFakeWxAPI();
 
             // 接口打桩
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.fail('login_failed');
             });
+
             sinon.stub(global.wx, 'getUserInfo');
             sinon.stub(global.wx, 'request');
 
             const success = sinon.spy();
-            const fail = sinon.spy(function(error) {
+            const fail = sinon.spy(function (error) {
                 error.should.be.instanceOf(LoginError);
                 error.type.should.be.equal(constants.ERR_WX_LOGIN_FAILED);
                 error.detail.should.be.equal('login_failed');
@@ -127,20 +129,23 @@ describe('lib/login.js', function() {
             global.wx.getUserInfo.should.not.be.called();
             global.wx.request.should.not.be.called();
         });
-        it('should call fail() if wx.getUserInfo() fails', function() {
+
+        it('should call fail() if wx.getUserInfo() fails', function () {
             setupFakeWxAPI();
 
             // 接口打桩
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.success({ code: testCode, encryptData: testEncryptData });
             });
-            sinon.stub(global.wx, 'getUserInfo', function(options) {
+
+            sinon.stub(global.wx, 'getUserInfo', function (options) {
                 options.fail('getUserInfo_failed');
             });
+
             sinon.stub(global.wx, 'request');
 
             const success = sinon.spy();
-            const fail = sinon.spy(function(error) {
+            const fail = sinon.spy(function (error) {
                 error.should.be.instanceOf(LoginError);
                 error.type.should.be.equal(constants.ERR_WX_GET_USER_INFO);
                 error.detail.should.be.equal('getUserInfo_failed');
@@ -154,23 +159,26 @@ describe('lib/login.js', function() {
             global.wx.getUserInfo.should.be.calledOnce();
             global.wx.request.should.not.be.called();
         });
-        it('should call fail() if wx.request() didn\'t response with a session', function() {
+
+        it('should call fail() if wx.request() didn\'t response with a session', function () {
             setupFakeWxAPI();
 
             // 接口打桩
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.success({ code: testCode, encryptData: testEncryptData });
             });
-            sinon.stub(global.wx, 'getUserInfo', function(options) {
+
+            sinon.stub(global.wx, 'getUserInfo', function (options) {
                 options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
             });
-            sinon.stub(global.wx, 'request', function(options) {
+
+            sinon.stub(global.wx, 'request', function (options) {
                 // no session
                 options.success({});
             });
 
             const success = sinon.spy();
-            const fail = sinon.spy(function(error) {
+            const fail = sinon.spy(function (error) {
                 error.should.be.instanceOf(LoginError);
                 error.type.should.be.equal(constants.ERR_LOGIN_SESSION_NOT_RECEIVED);
             });
@@ -183,22 +191,25 @@ describe('lib/login.js', function() {
             global.wx.getUserInfo.should.be.calledOnce();
             global.wx.request.should.be.calledOnce();
         });
-        it('should call fail() if wx.request() fails', function() {
+
+        it('should call fail() if wx.request() fails', function () {
             setupFakeWxAPI();
 
             // 接口打桩
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.success({ code: testCode, encryptData: testEncryptData });
             });
-            sinon.stub(global.wx, 'getUserInfo', function(options) {
+
+            sinon.stub(global.wx, 'getUserInfo', function (options) {
                 options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
             });
-            sinon.stub(global.wx, 'request', function(options) {
+
+            sinon.stub(global.wx, 'request', function (options) {
                 options.fail('server error');
             });
 
             const success = sinon.spy();
-            const fail = sinon.spy(function(error) {
+            const fail = sinon.spy(function (error) {
                 error.should.be.instanceOf(LoginError);
                 error.type.should.be.equal(constants.ERR_LOGIN_FAILED);
             });
@@ -211,13 +222,15 @@ describe('lib/login.js', function() {
             global.wx.getUserInfo.should.be.calledOnce();
             global.wx.request.should.be.calledOnce();
         });
-        it('should be ok if no fail or success callback passed', function() {
+
+        it('should be ok if no fail or success callback passed', function () {
             setupFakeWxAPI();
 
             // 接口打桩
-            sinon.stub(global.wx, 'login', function(options) {
+            sinon.stub(global.wx, 'login', function (options) {
                 options.fail('login_failed');
             });
+
             sinon.stub(global.wx, 'getUserInfo');
             sinon.stub(global.wx, 'request');
 
