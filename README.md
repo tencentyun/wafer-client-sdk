@@ -14,7 +14,7 @@ npm install qcloud-weapp-client-sdk
 
 ### SDK 使用
 
-客户端 SDK 的使用比较简单，提供了一个和 `wx.request` 参数一样的方法，使用该方法发起的请求会和服务端的 SDK 配置获得登录态。
+客户端 SDK 的使用比较简单，提供了一个和 `wx.request` 参数一样的方法，使用该方法发起的请求会和服务端的 SDK 配合获得登录态。
 
 ```js
 var qcloud = require('./node_modules/qcloud-weapp-client-sdk/index.js');
@@ -26,5 +26,7 @@ qcloud.request({
     }
 });
 ```
+
+## SDK 实现
 
 ## 长连接服务
