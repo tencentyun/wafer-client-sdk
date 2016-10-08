@@ -160,7 +160,7 @@ describe('lib/login.js', function () {
             global.wx.request.should.not.be.called();
         });
 
-        it('should call fail() if wx.request() didn\'t response with a session', function () {
+        it('should call fail() if wx.request() didn\'t response with magic id', function () {
             setupFakeWxAPI();
 
             // 接口打桩
@@ -175,6 +175,42 @@ describe('lib/login.js', function () {
             sinon.stub(global.wx, 'request', function (options) {
                 // no session
                 options.success({});
+            });
+
+            const success = sinon.spy();
+            const fail = sinon.spy(function (error) {
+                error.should.be.instanceOf(LoginError);
+                error.type.should.be.equal(constants.ERR_LOGIN_SESSION_NOT_RECEIVED);
+            });
+
+            login({ loginUrl: testLoginUrl, success, fail });
+
+            fail.should.be.calledOnce();
+            success.should.not.be.called();
+            global.wx.login.should.be.calledOnce();
+            global.wx.getUserInfo.should.be.calledOnce();
+            global.wx.request.should.be.calledOnce();
+        });
+
+        it('should call fail() if wx.request() response with magic id but with no session', function () {
+            setupFakeWxAPI();
+
+            // 接口打桩
+            sinon.stub(global.wx, 'login', function (options) {
+                options.success({ code: testCode, encryptData: testEncryptData });
+            });
+
+            sinon.stub(global.wx, 'getUserInfo', function (options) {
+                options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
+            });
+
+            sinon.stub(global.wx, 'request', function (options) {
+                // no session
+                options.success({
+                    data: {
+                        [constants.WX_SESSION_MAGIC_ID]: 1
+                    }
+                });
             });
 
             const success = sinon.spy();
