@@ -1,4 +1,4 @@
-var constants = require('./lib/constants');
+var constants = require('./lib/constants.js');
 var request = require('./lib/request.js');
 var login = require('./lib/login.js');
 
