@@ -1,0 +1,8 @@
+node_modules/
+npm-debug.log
+sftp-config.json
+coverage/
+test/
+.gitignore
+jsconfig.json
+typings.json
