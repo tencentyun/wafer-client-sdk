@@ -16,6 +16,11 @@ describe('index.js', function () {
             qcloud.login.should.be.equal(login.login);
         });
 
+        it('should export setLoginUrl() method', function () {
+            qcloud.setLoginUrl.should.be.a.Function();
+            qcloud.setLoginUrl.should.be.equal(login.setLoginUrl);
+        });
+
         it('should export LoginError class', function () {
             qcloud.LoginError.should.be.a.Function();
             qcloud.LoginError.should.be.equal(login.LoginError);

@@ -4,6 +4,7 @@ var login = require('./lib/login.js');
 
 var exports = module.exports = {
     login: login.login,
+    setLoginUrl: login.setLoginUrl,
     LoginError: login.LoginError,
 
     request: request.request,
