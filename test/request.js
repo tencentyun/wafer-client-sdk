@@ -95,7 +95,7 @@ describe('lib/request.js', function () {
                 options.success({
                     data: {
                         [constants.WX_SESSION_MAGIC_ID]: 1,
-                        error: constants.ERR_SESSION_EXPIRED,
+                        error: constants.ERR_INVALID_SESSION,
                     }
                 });
             });
@@ -108,7 +108,7 @@ describe('lib/request.js', function () {
                 url: 'https://www.mydomain.com/ajax/action',
                 fail: function (error) {
                     error.should.be.instanceof(RequestError);
-                    error.type.should.be.equal(constants.ERR_SESSION_EXPIRED);
+                    error.type.should.be.equal(constants.ERR_INVALID_SESSION);
 
                     loginLib.login.should.be.calledOnce();
                     wx.request.should.be.calledTwice();
