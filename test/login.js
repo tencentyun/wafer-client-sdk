@@ -6,7 +6,7 @@ require('should-sinon');
 
 const constants = require('../lib/constants');
 const Session = require('../lib/session');
-const { login, LoginError } = require('../lib/login');
+const { login, LoginError, setLoginUrl } = require('../lib/login');
 
 const setupFakeWxAPI = require('./helpers/setupFakeWxAPI');
 
@@ -31,11 +31,12 @@ describe('lib/login.js', function () {
             login.should.be.a.Function ();
         });
 
-        it('should throw an error if no `loginUrl` passed', function () {
+        it('should throw an error if called before `setLoginUrl()`', function () {
             should.throws(function () { login() });
         });
 
         it('should go through the login process without session stored', function (done) {
+            setLoginUrl(testLoginUrl);
 
             setupFakeWxAPI();
 
@@ -67,7 +68,6 @@ describe('lib/login.js', function () {
             });
 
             login({
-                loginUrl: testLoginUrl,
                 success: function (userInfo) {
                     userInfo.should.be.equal(testUserInfo);
                     var session = Session.get();
