@@ -7,15 +7,12 @@ require('should-sinon');
 const constants = require('../lib/constants')
 var Session = require('../lib/session.js');
 const { request, RequestError } = require('../lib/request');
+const loginLib = require('../lib/login');
+
+const setupFakeWxAPI = require('./helpers/setupFakeWxAPI');
 
 describe('lib/request.js', function () {
-    let wx;
-
-    beforeEach(function () {
-        wx = global.wx = {
-            request() {},
-        };
-    });
+    beforeEach(setupFakeWxAPI);
 
     describe('class: RequestError', function () {
         it('should return Error instance with type and message', function () {
@@ -35,7 +32,7 @@ describe('lib/request.js', function () {
            });
         });
 
-        it('should call wx.request() with header(id, skey) if has any', function (done) {
+        it('should call wx.request() with header(id, skey) if session exists', function (done) {
             sinon.stub(Session, 'get', function () {
                 return {
                     id: 'pseudo_id',
@@ -55,7 +52,7 @@ describe('lib/request.js', function () {
             request({ url: 'https://www.mydomain.com/ajax/action' });
         });
 
-        it('should call wx.request() with no header(id, skey) if has not any', function (done) {
+        it('should call wx.request() with no header(id, skey) if session not exists', function (done) {
             sinon.stub(Session, 'get', function () {
                 return null;
             });
@@ -90,7 +87,7 @@ describe('lib/request.js', function () {
             Session.clear.restore();
         });
 
-        it('should call options.fail() when check login failed', function (done) {
+        it('should login and retry when response with session error', function (done) {
             sinon.stub(Session, 'get');
             sinon.stub(Session, 'clear');
 
@@ -103,20 +100,28 @@ describe('lib/request.js', function () {
                 });
             });
 
+            sinon.stub(loginLib, 'login', function(options) {
+                options.success({});
+            });
+
             request({
                 url: 'https://www.mydomain.com/ajax/action',
                 fail: function (error) {
                     error.should.be.instanceof(RequestError);
                     error.type.should.be.equal(constants.ERR_SESSION_EXPIRED);
 
+                    loginLib.login.should.be.calledOnce();
+                    wx.request.should.be.calledTwice();
+
                     Session.get.restore();
                     Session.clear.restore();
+                    loginLib.login.restore();
                     done();
                 },
             });
         });
 
-        it('should call options.success() when check login success', function (done) {
+        it('should call options.success() when response without session error', function (done) {
             sinon.stub(Session, 'get');
             sinon.stub(Session, 'clear');
 
@@ -136,6 +141,33 @@ describe('lib/request.js', function () {
 
                     Session.get.restore();
                     Session.clear.restore();
+                    done();
+                },
+            });
+        });
+
+        it('should login before request if `login` options set to true', function(done) {
+            sinon.stub(wx, 'request', function (options) {
+                options.success({
+                    data: { foo: 1, bar: '2' }
+                });
+            });
+
+            sinon.stub(loginLib, 'login', function(options) {
+                options.success({});
+            });
+            
+            request({
+                url: 'https://www.mydomain.com/ajax/action',
+                login: true,
+                success: function (response) {
+                    response.should.be.an.Object();
+                    response.data.should.be.an.Object();
+                    response.data.foo.should.be.equal(1);
+                    response.data.bar.should.be.equal('2');
+
+                    loginLib.login.should.be.calledOnce();
+                    loginLib.login.restore();
                     done();
                 },
             });
