@@ -31,8 +31,14 @@ describe('lib/login.js', function () {
             login.should.be.a.Function ();
         });
 
-        it('should throw an error if called before `setLoginUrl()`', function () {
-            should.throws(function () { login() });
+        it('should call fail() if called before `setLoginUrl()`', function (done) {
+            login({
+                fail: function(error) {
+                    should(error).be.exist;
+                    error.should.be.instanceOf(Error);
+                    done();
+                }
+            });
         });
 
         it('should go through the login process without session stored', function (done) {
