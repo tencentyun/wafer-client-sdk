@@ -1,6 +1,7 @@
 var constants = require('./lib/constants.js');
 var request = require('./lib/request.js');
 var login = require('./lib/login.js');
+var Tunnel = require('./lib/tunnel.js');
 
 var exports = module.exports = {
     login: login.login,
@@ -9,6 +10,7 @@ var exports = module.exports = {
 
     request: request.request,
     RequestError: request.RequestError,
+    Tunnel: Tunnel
 };
 
 // 导出错误类型码
