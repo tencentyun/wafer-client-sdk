@@ -6,10 +6,11 @@
 
 ### SDK 获取
 
-本 SDK 已经发布为 npm 模块，可以直接安装到小程序目录中。
+本 SDK 已经发布为 bower 模块，可以直接安装到小程序目录中。
 
 ```sh
-npm install qcloud-weapp-client-sdk
+npm install bower -g
+bower install qcloud-weapp-client-sdk
 ```
 
 ### SDK 使用
@@ -17,7 +18,7 @@ npm install qcloud-weapp-client-sdk
 客户端 SDK 的使用比较简单，提供了一个和 `wx.request` 参数一样的方法，使用该方法发起的请求会和服务端的 SDK 配合获得登录态。
 
 ```js
-var qcloud = require('./node_modules/qcloud-weapp-client-sdk/index.js');
+var qcloud = require('./bower_components/qcloud-weapp-client-sdk/index.js');
 
 qcloud.request({
     url: 'https://www.mydomain.com/myapi',
