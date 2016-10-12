@@ -10,7 +10,7 @@ var exports = module.exports = {
 
     request: request.request,
     RequestError: request.RequestError,
-    Tunnel: Tunnel
+    Tunnel: Tunnel,
 };
 
 // 导出错误类型码
