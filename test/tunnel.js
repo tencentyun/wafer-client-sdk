@@ -6,5 +6,5 @@ require('should-sinon');
 const tunnel = require('../lib/tunnel.js')
 
 describe("lib/tunnel.js", function() {
-    
+
 });
