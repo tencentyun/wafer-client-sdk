@@ -33,7 +33,7 @@ describe('lib/login.js', function () {
 
         it('should call fail() if called before `setLoginUrl()`', function (done) {
             login({
-                fail: function(error) {
+                fail: function (error) {
                     should(error).be.exist;
                     error.should.be.instanceOf(Error);
                     done();
@@ -58,6 +58,7 @@ describe('lib/login.js', function () {
             sinon.stub(global.wx, 'request', function (options) {
                 const { url, header, method } = options;
                 url.should.be.equal(testLoginUrl);
+
                 header.should.be.an.Object();
                 header[constants.WX_HEADER_CODE].should.be.equal(testCode);
                 header[constants.WX_HEADER_ENCRYPT_DATA].should.be.equal(testEncryptData);
@@ -84,13 +85,17 @@ describe('lib/login.js', function () {
             });
         });
 
-        it('should callback with userInfo in session if session exists', function () {
+        it('should callback with userInfo in session if session exists and not expired', function (done) {
             setupFakeWxAPI();
 
             // 接口打桩，这些接口不应该被调用
             sinon.stub(global.wx, 'login');
             sinon.stub(global.wx, 'getUserInfo');
             sinon.stub(global.wx, 'request');
+
+            sinon.stub(global.wx, 'checkSession', function (options) {
+                options.success();
+            });
 
             Session.set({
                 id: testId,
@@ -101,13 +106,35 @@ describe('lib/login.js', function () {
             login({
                 loginUrl: testLoginUrl,
                 success: function (userInfo) {
+                    global.wx.checkSession.should.be.calledOnce();
+
+                    global.wx.login.should.not.be.called();
+                    global.wx.getUserInfo.should.not.be.called();
+                    global.wx.request.should.not.be.called();
+
                     userInfo.should.be.equal(testUserInfo);
+
+                    done();
                 },
             });
+        });
 
-            global.wx.login.should.not.be.called();
-            global.wx.getUserInfo.should.not.be.called();
-            global.wx.request.should.not.be.called();
+        it('should call wx.login() if session exists but expired', function () {
+            setupFakeWxAPI();
+
+            sinon.stub(global.wx, 'login');
+            sinon.stub(global.wx, 'checkSession', function (options) {
+                options.fail();
+            });
+
+            Session.set({
+                id: testId,
+                skey: testSkey,
+                userInfo: testUserInfo,
+            });
+
+            login({ loginUrl: testLoginUrl });
+            global.wx.login.should.be.calledOnce();
         });
 
         it('should call fail() if wx.login() fails', function () {

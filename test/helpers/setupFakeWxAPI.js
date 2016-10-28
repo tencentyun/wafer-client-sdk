@@ -6,6 +6,7 @@ function setupFakeWxAPI() {
     wx.getStorageSync = key => storage[key];
     wx.login = () => void(0);
     wx.getUserInfo = () => void(0);
+    wx.checkSession = () => void(0);
     wx.request = () => void(0);
 }
 
