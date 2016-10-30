@@ -1,11 +1,10 @@
 {
   "name": "qcloud-weapp-client-sdk",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "scripts": {
     "test": "mocha",
-    "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha",
     "test-cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- --reporter spec --check-leaks --bail --slow 200 test/",
     "travis-test-cov": "istanbul cover --report lcovonly ./node_modules/mocha/bin/_mocha -- --reporter spec --check-leaks --bail --slow 200 test/",
     "coveralls": "npm run travis-test-cov && cat ./coverage/lcov.info | coveralls",
