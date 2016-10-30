@@ -25,6 +25,7 @@
     "typings.json",
     "jsconfig.json",
     ".npmignore",
+    ".travis.yml",
     ".gitignore"
   ]
 }

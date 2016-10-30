@@ -4,5 +4,6 @@ sftp-config.json
 coverage/
 test/
 .gitignore
+.travis.yml
 jsconfig.json
 typings.json
