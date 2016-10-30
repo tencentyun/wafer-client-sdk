@@ -6,4 +6,5 @@ test/
 .gitignore
 .travis.yml
 jsconfig.json
+bower.json
 typings.json
