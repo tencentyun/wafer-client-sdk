@@ -4,6 +4,8 @@ const should = require('should');
 const sinon = require('sinon');
 require('should-sinon');
 
+require('./helpers/setupFakeWxAPI')();
+
 const constants = require('../lib/constants');
 const login = require('../lib/login');
 const request = require('../lib/request');
