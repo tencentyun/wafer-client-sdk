@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tencentyun/weapp-client-sdk.svg?branch=master)](https://travis-ci.org/tencentyun/weapp-client-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/tencentyun/weapp-client-sdk/badge.svg?branch=master)](https://coveralls.io/github/tencentyun/weapp-client-sdk?branch=master)
+[![License](http://img.shields.io/npm/l/qcloud-weapp-client-sdk.svg)](LICENSE)
 
 ## 会话管理服务
 
