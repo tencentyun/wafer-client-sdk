@@ -18,7 +18,7 @@ const require_tunnel_module = (() => {
     };
 })();
 
-describe('lib/tunnel.js', function() {
+describe('lib/tunnel.js', function () {
     const delay = ms => new Promise(resolve => setTimeout(resolve, ms || 0));
     const defer = () => delay(0);
 
