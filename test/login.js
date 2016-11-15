@@ -22,7 +22,8 @@ describe('lib/login.js', function () {
     describe('method: login()', function () {
         const testLoginUrl = 'https://api.mydomain.com/login';
         const testCode = 'test_code';
-        const testEncryptData = 'encrypt_data';
+        const testEncryptedData = 'encrypt_data';
+        const testIv          = 'iv';
         const testUserInfo = { fakeUserInfo: true };
         const testId = 'test_id';
         const testSkey = 'test_skey';
@@ -51,7 +52,7 @@ describe('lib/login.js', function () {
                 options.success({ code: testCode });
             });
             sinon.stub(global.wx, 'getUserInfo', function (options) {
-                options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
+                options.success({ encryptedData: testEncryptedData,iv: testIv, userInfo: testUserInfo });
             });
 
             // 给登录服务器请求打桩，检查参数是否正确的同时响应登录成功
@@ -61,7 +62,7 @@ describe('lib/login.js', function () {
 
                 header.should.be.an.Object();
                 header[constants.WX_HEADER_CODE].should.be.equal(testCode);
-                header[constants.WX_HEADER_ENCRYPT_DATA].should.be.equal(testEncryptData);
+                header[constants.WX_HEADER_ENCRYPTED_DATA].should.be.equal(testEncryptedData);
 
                 options.success({
                     data: {
@@ -168,7 +169,7 @@ describe('lib/login.js', function () {
 
             // 接口打桩
             sinon.stub(global.wx, 'login', function (options) {
-                options.success({ code: testCode, encryptData: testEncryptData });
+                options.success({ code: testCode, encryptedData: testEncryptedData });
             });
 
             sinon.stub(global.wx, 'getUserInfo', function (options) {
@@ -198,11 +199,11 @@ describe('lib/login.js', function () {
 
             // 接口打桩
             sinon.stub(global.wx, 'login', function (options) {
-                options.success({ code: testCode, encryptData: testEncryptData });
+                options.success({ code: testCode, encryptedData: testEncryptedData , iv:testIv });
             });
 
             sinon.stub(global.wx, 'getUserInfo', function (options) {
-                options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
+                options.success({ encryptedData: testEncryptedData, userInfo: testUserInfo });
             });
 
             sinon.stub(global.wx, 'request', function (options) {
@@ -230,11 +231,11 @@ describe('lib/login.js', function () {
 
             // 接口打桩
             sinon.stub(global.wx, 'login', function (options) {
-                options.success({ code: testCode, encryptData: testEncryptData });
+                options.success({ code: testCode, encryptedData: testEncryptedData });
             });
 
             sinon.stub(global.wx, 'getUserInfo', function (options) {
-                options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
+                options.success({ encryptedData: testEncryptedData, userInfo: testUserInfo });
             });
 
             sinon.stub(global.wx, 'request', function (options) {
@@ -266,11 +267,11 @@ describe('lib/login.js', function () {
 
             // 接口打桩
             sinon.stub(global.wx, 'login', function (options) {
-                options.success({ code: testCode, encryptData: testEncryptData });
+                options.success({ code: testCode, encryptedData: testEncryptedData });
             });
 
             sinon.stub(global.wx, 'getUserInfo', function (options) {
-                options.success({ encryptData: testEncryptData, userInfo: testUserInfo });
+                options.success({ encryptedData: testEncryptedData, userInfo: testUserInfo });
             });
 
             sinon.stub(global.wx, 'request', function (options) {
