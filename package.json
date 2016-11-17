@@ -1,6 +1,6 @@
 {
   "name": "qcloud-weapp-client-sdk",
-  "version": "0.7.4",
+  "version": "0.8.0",
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "scripts": {
