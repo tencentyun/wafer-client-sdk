@@ -199,7 +199,7 @@ describe('lib/login.js', function () {
 
             // 接口打桩
             sinon.stub(global.wx, 'login', function (options) {
-                options.success({ code: testCode, encryptedData: testEncryptedData , iv: testIv });
+                options.success({ code: testCode, encryptedData: testEncryptedData, iv: testIv });
             });
 
             sinon.stub(global.wx, 'getUserInfo', function (options) {
