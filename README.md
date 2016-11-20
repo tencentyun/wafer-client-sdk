@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/tencentyun/wafer-client-sdk.svg?branch=master)](https://travis-ci.org/tencentyun/wafer-client-sdk)
 [![Coverage Status](https://coveralls.io/repos/github/tencentyun/wafer-client-sdk/badge.svg?branch=master)](https://coveralls.io/github/tencentyun/wafer-client-sdk?branch=master)
-[![License](http://img.shields.io/npm/l/qcloud-weapp-client-sdk.svg)](LICENSE)
+[![License](https://img.shields.io/github/license/tencentyun/wafer-client-sdk.svg)](LICENSE)
 
 本 项目是 [Wafer](https://github.com/tencentyun/wafer-solution) 的组成部分，为小程序客户端开发提供 SDK 支持会话服务和信道服务。
 
