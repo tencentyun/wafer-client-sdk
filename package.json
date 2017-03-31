@@ -1,6 +1,6 @@
 {
-  "name": "qcloud-weapp-client-sdk",
-  "version": "0.8.1",
+  "name": "wafer-client-sdk",
+  "version": "0.8.2",
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "scripts": {
@@ -33,5 +33,6 @@
     "should": "^11.1.0",
     "should-sinon": "0.0.5",
     "sinon": "^1.17.6"
-  }
+  },
+  "dependencies": {}
 }

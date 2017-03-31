@@ -1,5 +1,5 @@
 {
-  "name": "qcloud-weapp-client-sdk",
+  "name": "wafer-client-sdk",
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "authors": [
