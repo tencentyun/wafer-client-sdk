@@ -1,6 +1,6 @@
 {
   "name": "wafer-client-sdk",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "QCloud 微信小程序客户端 SDK",
   "main": "index.js",
   "scripts": {

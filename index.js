@@ -12,6 +12,7 @@ var exports = module.exports = {
     clearSession: Session.clear,
 
     request: request.request,
+    buildSessionHeader: request.buildSessionHeader,
     RequestError: request.RequestError,
 
     Tunnel: Tunnel,
