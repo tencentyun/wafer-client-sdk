@@ -147,7 +147,7 @@ qcloud.login(options);
 |-------------|---------------|--------------
 |options      |PlainObject    |会话服务登录地址
 |options.success | () => void | 登录成功的回调
-|options.error | (error) => void | 登录失败的回调
+|options.fail    | (error) => void | 登录失败的回调
 
 
 ### request
@@ -167,7 +167,7 @@ qcloud.request(options);
 |options.header | PlainObject | 请求头设置，不允许设置 Referer
 |options.method | string      | 请求的方法，默认为 GET
 |options.success | (response) => void | 登录成功的回调。<ul><li>`response.statusCode`：请求返回的状态码</li><li>`response.data`：请求返回的数据</li></ul>
-|options.error | (error) => void | 登录失败的回调
+|options.fail | (error) => void | 登录失败的回调
 |options.complete | () => void | 登录完成后回调，无论成功还是失败
 
 ### Tunnel
